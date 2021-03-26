@@ -5,7 +5,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,15 +18,38 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StartScreen implements Screen{
     private Game game;
     private Stage stage;
+    private TextureAtlas textureAtlas;
+    private Animation animation;
+    private float elapsedTime = 0;
+    private List<Star> stars;
+    private int height;
+    private int width;
 
-    public StartScreen(Game g) {
+    public StartScreen(Game g){
         this.game = g;
         stage = new Stage(new ScreenViewport());
+        height = Gdx.graphics.getWidth();
+        width = Gdx.graphics.getHeight();
         makeButton();
         makeLabel();
+        initStars();
+    }
+
+    public void initStars(){
+        stars = new ArrayList<Star>();
+        for(int i = 0; i < 40; i++){
+            Star s = new Star();
+            s.setPosition((float)(Math.random() * height), (float)(Math.random() * width));
+            stars.add(s);
+            this.stage.addActor(s);
+        }
+        System.out.println(width);
     }
 
     public void makeLabel(){
@@ -66,10 +93,29 @@ public class StartScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.075f, .125f, .325f, 1);
+        Gdx.gl.glClearColor(.078f, .078f, .078f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        tick();
         stage.act();
         stage.draw();
+    }
+
+    public void tick(){
+        for(int i = 0; i < stars.size(); i++){
+            Star s = stars.get(i);
+            s.setPosition(s.getX(), s.getY() - s.inc());
+            if(s.getY() <= -50){
+                s.remove();
+                stars.remove(i);
+                i--;
+            }
+        }
+        if((int)(Math.random() * 25) == 7){
+            Star s = new Star();
+            s.setPosition((float)(Math.random() * height), width);
+            stars.add(s);
+            this.stage.addActor(s);
+        }
     }
 
     @Override
