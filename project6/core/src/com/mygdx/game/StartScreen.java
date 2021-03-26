@@ -2,27 +2,43 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class StartScreen implements Screen {
+public class StartScreen implements Screen{
     private Game game;
     private Stage stage;
 
     public StartScreen(Game g) {
         this.game = g;
         stage = new Stage(new ScreenViewport());
+        makeButton();
+        makeLabel();
+    }
 
+    public void makeLabel(){
+        Label.LabelStyle label1Style = new Label.LabelStyle();
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        label1Style.font = myFont;
+        label1Style.fontColor = Color.WHITE;
+
+        Label label1 = new Label("Title (BitmapFont)",label1Style);
+        label1.setSize(Gdx.graphics.getWidth(),100);
+        label1.setPosition(0,Gdx.graphics.getHeight()-100*2);
+        label1.setAlignment(Align.center);
+        stage.addActor(label1);
+    }
+
+    public void makeButton(){
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         BitmapFont font = new BitmapFont(Gdx.files.internal("font.fnt"));
         textButtonStyle.font = font;
