@@ -58,9 +58,9 @@ public class StartScreen implements Screen{
         label1Style.font = myFont;
         label1Style.fontColor = Color.WHITE;
 
-        Label label1 = new Label("Title (BitmapFont)",label1Style);
+        Label label1 = new Label("Untitled Space \nShooter",label1Style);
         label1.setSize(Gdx.graphics.getWidth(),100);
-        label1.setPosition(0,Gdx.graphics.getHeight()-100*2);
+        label1.setPosition(0,Gdx.graphics.getHeight()-200*2);
         label1.setAlignment(Align.center);
         stage.addActor(label1);
     }
@@ -69,7 +69,7 @@ public class StartScreen implements Screen{
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
         BitmapFont font = new BitmapFont(Gdx.files.internal("font.fnt"));
         textButtonStyle.font = font;
-        TextButton button = new TextButton("Button1", textButtonStyle);
+        TextButton button = new TextButton("Start", textButtonStyle);
 
         button.setWidth(Gdx.graphics.getWidth()/2);
         button.setPosition(Gdx.graphics.getWidth()/2-button.getWidth()/2,Gdx.graphics.getHeight()/4-button.getHeight()/2);
@@ -93,7 +93,7 @@ public class StartScreen implements Screen{
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.078f, .078f, .078f, 1);
+        Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tick();
         stage.act();

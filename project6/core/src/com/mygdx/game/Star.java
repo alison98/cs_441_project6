@@ -12,9 +12,20 @@ public class Star extends Actor {
     private double curr = 0;
 
     public Star(){
-        sprite = new Sprite(new Texture(Gdx.files.internal("pixil-frame-0.png")));
-        this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
         v = Math.random() * 3 + 1;
+        sprite = new Sprite(new Texture(Gdx.files.internal(getImg())));
+        this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
+    }
+
+    private String getImg(){
+        if(v < 1.5)
+            return "star-7-pixels.png";
+        else if(v < 2)
+            return "star-9-pixels.png";
+        else if(v < 2.5)
+            return "star-11-pixels.png";
+        else
+            return "star-13-pixels.png";
     }
 
     public int inc(){
