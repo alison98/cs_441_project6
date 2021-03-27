@@ -9,12 +9,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -37,7 +41,7 @@ public class StartScreen implements Screen{
         height = Gdx.graphics.getWidth();
         width = Gdx.graphics.getHeight();
         makeButton();
-        makeLabel();
+        initTitle();
         initStars();
     }
 
@@ -47,31 +51,22 @@ public class StartScreen implements Screen{
             Star s = new Star();
             s.setPosition((float)(Math.random() * height), (float)(Math.random() * width));
             stars.add(s);
-            this.stage.addActor(s);
+            stage.addActor(s);
         }
         System.out.println(width);
     }
 
-    public void makeLabel(){
-        Label.LabelStyle label1Style = new Label.LabelStyle();
-        BitmapFont myFont = new BitmapFont(Gdx.files.internal("font.fnt"));
-        label1Style.font = myFont;
-        label1Style.fontColor = Color.WHITE;
-
-        Label label1 = new Label("Untitled Space \nShooter",label1Style);
-        label1.setSize(Gdx.graphics.getWidth(),100);
-        label1.setPosition(0,Gdx.graphics.getHeight()-200*2);
-        label1.setAlignment(Align.center);
-        stage.addActor(label1);
+    public void initTitle(){
+        Title t = new Title();
+        t.setPosition(Gdx.graphics.getWidth()/2-456, Gdx.graphics.getHeight()-600);
+        stage.addActor(t);
     }
 
     public void makeButton(){
-        TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-        BitmapFont font = new BitmapFont(Gdx.files.internal("font.fnt"));
-        textButtonStyle.font = font;
-        TextButton button = new TextButton("Start", textButtonStyle);
-
-        button.setWidth(Gdx.graphics.getWidth()/2);
+        ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
+        imageButtonStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
+        imageButtonStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
+        ImageButton button = new ImageButton(imageButtonStyle);
         button.setPosition(Gdx.graphics.getWidth()/2-button.getWidth()/2,Gdx.graphics.getHeight()/4-button.getHeight()/2);
         button.addListener(new InputListener(){
             @Override
@@ -114,7 +109,7 @@ public class StartScreen implements Screen{
             Star s = new Star();
             s.setPosition((float)(Math.random() * height), width);
             stars.add(s);
-            this.stage.addActor(s);
+            stage.addActor(s);
         }
     }
 
