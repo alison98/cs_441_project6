@@ -31,7 +31,9 @@ public class Star extends Actor {
     public int inc(){
         double prev = curr;
         curr += v;
-        return (int)(curr) - (int)(prev);
+        int ret = (int)(curr) - (int)(prev);
+        curr -= ret;
+        return ret;
     }
 
     @Override
