@@ -24,10 +24,13 @@ public class GameScreen implements Screen {
     private Rocket rocket;
     private LaserManager lasers;
     private AsteroidManager asteroids;
+    private StarManager stars;
 
-    public GameScreen(Game g) {
-        this.game = g;
+    public GameScreen(Game g, StarManager s) {
+        game = g;
         stage = new Stage(new ScreenViewport());
+        stars = s;
+        stars.setStage(stage);
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
         initRocket();
@@ -62,9 +65,11 @@ public class GameScreen implements Screen {
     }
 
     private void tick(){
+        stars.tick();
         lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8));
         asteroids.tick();
         rocket.tick();
+        //stars.toBack();
         rocket.toFront();
     }
 

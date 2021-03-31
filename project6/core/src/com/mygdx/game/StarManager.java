@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
@@ -23,6 +24,17 @@ public class StarManager {
         stage = s;
         generateStars();
         initScreen();
+    }
+
+    public void setStage(Stage s){
+        for(Actor a: stage.getActors()){
+            a.remove();
+        }
+        stage = s;
+        for(Star i: onScreen){
+            stage.addActor(i);
+            i.positionChanged();
+        }
     }
 
     private void initScreen(){

@@ -10,11 +10,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 public class CountdownScreen implements Screen {
     Game game;
     private Stage stage;
+    private StarManager stars;
     Countdown c;
 
-    public CountdownScreen(Game g) {
-        this.game = g;
+    public CountdownScreen(Game g, StarManager s) {
+        game = g;
         stage = new Stage(new ScreenViewport());
+        stars = s;
+        stars.setStage(stage);
         c = new Countdown();
         stage.addActor(c);
         c.setPosition(Gdx.graphics.getWidth()/2 - c.getWidth()/2, Gdx.graphics.getHeight()-800);
@@ -30,9 +33,10 @@ public class CountdownScreen implements Screen {
         Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         if(c.isDone()){
-            game.setScreen(new GameScreen(game));
+            game.setScreen(new GameScreen(game, stars));
         }
         c.tick();
+        stars.tick();
         stage.act();
         stage.draw();
     }

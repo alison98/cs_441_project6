@@ -59,7 +59,7 @@ public class StartScreen implements Screen{
         button.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new CountdownScreen(game));
+                game.setScreen(new CountdownScreen(game, stars));
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -78,15 +78,11 @@ public class StartScreen implements Screen{
     public void render(float delta) {
         Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        tick();
+        stars.tick();
         title.toFront();
         button.toFront();
         stage.act();
         stage.draw();
-    }
-
-    private void tick(){
-        stars.tick();
     }
 
     @Override
