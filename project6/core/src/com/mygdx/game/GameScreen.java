@@ -5,7 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
@@ -42,6 +44,12 @@ public class GameScreen implements Screen {
         rocket = new Rocket();
         rocket.setPosition(width/2-(rocket.getWidth()/2), 25);
         stage.addActor(rocket);
+        rocket.addListener(new DragListener(){
+            @Override
+            public void drag(InputEvent event, float x, float y, int pointer) {
+               rocket.moveBy(x - rocket.getWidth()/2, 0);
+            }
+        });
     }
 
     @Override
@@ -62,8 +70,8 @@ public class GameScreen implements Screen {
         lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8));
         asteroids.tick();
         rocket.tick();
-        rocket.remove();
-        stage.addActor(rocket);
+        //rocket.remove();
+        //stage.addActor(rocket);
     }
 
     @Override
