@@ -7,6 +7,7 @@ import java.util.List;
 
 public class LaserManager {
     private List<Laser> list;
+    private List<Laser> offScreen;
     private int height;
     private int width;
     private int startHeight;
@@ -16,6 +17,7 @@ public class LaserManager {
 
     public LaserManager(int h, int w, int sh, Stage s){
         list = new ArrayList<Laser>();
+        offScreen = new ArrayList<Laser>();
         height = h;
         width = w;
         startHeight = sh - 80;
@@ -23,7 +25,12 @@ public class LaserManager {
     }
 
     private void add(int pos){
-        Laser l = new Laser();
+        Laser l;
+        if(offScreen.size() > 0) {
+            l = offScreen.remove(0);
+        } else{
+            l = new Laser();
+        }
         l.setPosition(pos, startHeight);
         stage.addActor(l);
         list.add(l);
@@ -36,6 +43,7 @@ public class LaserManager {
             if(l.getY() >= height){
                 l.remove();
                 list.remove(i);
+                offScreen.add(l);
                 i--;
             }
         }

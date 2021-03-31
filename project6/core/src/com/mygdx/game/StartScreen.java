@@ -28,12 +28,11 @@ import java.util.List;
 public class StartScreen implements Screen{
     private Game game;
     private Stage stage;
-    private TextureAtlas textureAtlas;
-    private Animation animation;
-    private float elapsedTime = 0;
-    private List<Star> stars;
+    private StarManager stars;
     private int height;
     private int width;
+    private Title title;
+    private ImageButton button;
 
     public StartScreen(Game g){
         this.game = g;
@@ -42,35 +41,25 @@ public class StartScreen implements Screen{
         height = Gdx.graphics.getHeight();
         makeButton();
         initTitle();
-        initStars();
-    }
-
-    public void initStars(){
-        stars = new ArrayList<Star>();
-        for(int i = 0; i < 40; i++){
-            Star s = new Star();
-            s.setPosition((float)(Math.random() * width), (float)(Math.random() * height));
-            stars.add(s);
-            stage.addActor(s);
-        }
+        stars = new StarManager(height, width, stage);
     }
 
     public void initTitle(){
-        Title t = new Title();
-        t.setPosition(width/2-(t.getWidth()/2), height-600);
-        stage.addActor(t);
+        title = new Title();
+        title.setPosition(width/2-(title.getWidth()/2), height-600);
+        stage.addActor(title);
     }
 
     public void makeButton(){
         ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
         imageButtonStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
         imageButtonStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
-        ImageButton button = new ImageButton(imageButtonStyle);
+        button = new ImageButton(imageButtonStyle);
         button.setPosition(width/2-button.getWidth()/2,height/4-button.getHeight()/2);
         button.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-                game.setScreen(new GameScreen(game));
+                game.setScreen(new CountdownScreen(game));
             }
             @Override
             public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
@@ -90,26 +79,14 @@ public class StartScreen implements Screen{
         Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tick();
+        title.toFront();
+        button.toFront();
         stage.act();
         stage.draw();
     }
 
     private void tick(){
-        for(int i = 0; i < stars.size(); i++){
-            Star s = stars.get(i);
-            s.setPosition(s.getX(), s.getY() - s.tick());
-            if(s.getY() <= -50){
-                s.remove();
-                stars.remove(i);
-                i--;
-            }
-        }
-        if((int)(Math.random() * 25) == 7){
-            Star s = new Star();
-            s.setPosition((float)(Math.random() * width), height);
-            stars.add(s);
-            stage.addActor(s);
-        }
+        stars.tick();
     }
 
     @Override

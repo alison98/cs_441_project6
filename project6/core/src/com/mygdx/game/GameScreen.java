@@ -30,14 +30,9 @@ public class GameScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        countdown();
         initRocket();
         lasers = new LaserManager(height, width, (int)(25 + rocket.getHeight()), stage);
         asteroids = new AsteroidManager(height, width, stage);
-    }
-
-    private void countdown(){
-        //TODO
     }
 
     private void initRocket(){
@@ -70,8 +65,7 @@ public class GameScreen implements Screen {
         lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8));
         asteroids.tick();
         rocket.tick();
-        //rocket.remove();
-        //stage.addActor(rocket);
+        rocket.toFront();
     }
 
     @Override
