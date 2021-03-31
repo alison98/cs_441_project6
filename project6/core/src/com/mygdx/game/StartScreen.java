@@ -38,8 +38,8 @@ public class StartScreen implements Screen{
     public StartScreen(Game g){
         this.game = g;
         stage = new Stage(new ScreenViewport());
-        height = Gdx.graphics.getWidth();
-        width = Gdx.graphics.getHeight();
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
         makeButton();
         initTitle();
         initStars();
@@ -49,16 +49,15 @@ public class StartScreen implements Screen{
         stars = new ArrayList<Star>();
         for(int i = 0; i < 40; i++){
             Star s = new Star();
-            s.setPosition((float)(Math.random() * height), (float)(Math.random() * width));
+            s.setPosition((float)(Math.random() * width), (float)(Math.random() * height));
             stars.add(s);
             stage.addActor(s);
         }
-        System.out.println(width);
     }
 
     public void initTitle(){
         Title t = new Title();
-        t.setPosition(Gdx.graphics.getWidth()/2-456, Gdx.graphics.getHeight()-600);
+        t.setPosition(width/2-(t.getWidth()/2), height-600);
         stage.addActor(t);
     }
 
@@ -67,7 +66,7 @@ public class StartScreen implements Screen{
         imageButtonStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
         imageButtonStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
         ImageButton button = new ImageButton(imageButtonStyle);
-        button.setPosition(Gdx.graphics.getWidth()/2-button.getWidth()/2,Gdx.graphics.getHeight()/4-button.getHeight()/2);
+        button.setPosition(width/2-button.getWidth()/2,height/4-button.getHeight()/2);
         button.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
@@ -95,10 +94,10 @@ public class StartScreen implements Screen{
         stage.draw();
     }
 
-    public void tick(){
+    private void tick(){
         for(int i = 0; i < stars.size(); i++){
             Star s = stars.get(i);
-            s.setPosition(s.getX(), s.getY() - s.inc());
+            s.setPosition(s.getX(), s.getY() - s.tick());
             if(s.getY() <= -50){
                 s.remove();
                 stars.remove(i);
@@ -107,7 +106,7 @@ public class StartScreen implements Screen{
         }
         if((int)(Math.random() * 25) == 7){
             Star s = new Star();
-            s.setPosition((float)(Math.random() * height), width);
+            s.setPosition((float)(Math.random() * width), height);
             stars.add(s);
             stage.addActor(s);
         }

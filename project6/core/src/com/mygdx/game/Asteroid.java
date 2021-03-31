@@ -6,26 +6,21 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Star extends Actor {
+public class Asteroid extends Actor {
     private Sprite sprite;
     private double v;
     private double curr = 0;
 
-    public Star(){
-        v = Math.random() * 3 + 1;
-        sprite = new Sprite(new Texture(Gdx.files.internal(getImg())));
+    public Asteroid(){
+        sprite = new Sprite(new Texture(Gdx.files.internal(chooseRandomImg())));
+        sprite.setRotation(90 * ((int)(Math.random() * 4)));
         this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
+        v = 2;
     }
 
-    private String getImg(){
-        if(v < 1.5)
-            return "stars/star-7-pixels.png";
-        else if(v < 2)
-            return "stars/star-9-pixels.png";
-        else if(v < 2.5)
-            return "stars/star-11-pixels.png";
-        else
-            return "stars/star-13-pixels.png";
+    public String chooseRandomImg(){
+        int num = (int)(Math.random() * 3 + 1);
+        return "asteroid-" + num + "-1-resized.png";
     }
 
     public int tick(){
