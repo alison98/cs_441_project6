@@ -22,16 +22,16 @@ public class Star extends Actor {
 
     private void setSprite(int n){
         if(n == 1) {
-            v = (Math.random() + 1 / 2);
+            v = (Math.random() / 2 + 0.5);
             sprite = new Sprite(new Texture(Gdx.files.internal("stars/star-7-pixels.png")));
         } else if(n == 2) {
-            v = (Math.random() + 1.5 / 2);
+            v = (Math.random() / 2 + 1);
             sprite = new Sprite(new Texture(Gdx.files.internal("stars/star-9-pixels.png")));
         } else if(n == 3) {
-            v = (Math.random() + 2 / 2);
+            v = (Math.random() / 2 + 1.5);
             sprite = new Sprite(new Texture(Gdx.files.internal("stars/star-11-pixels.png")));
         } else {
-            v = (Math.random() + 2.5 / 2);
+            v = (Math.random() / 2 + 2);
             sprite = new Sprite(new Texture(Gdx.files.internal("stars/star-13-pixels.png")));
         }
     }

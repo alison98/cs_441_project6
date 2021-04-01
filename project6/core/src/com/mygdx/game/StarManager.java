@@ -38,7 +38,7 @@ public class StarManager {
     }
 
     private void initScreen(){
-        for(int i = 0; i < 40; i++){
+        for(int i = 0; i < 50; i++){
             add(true);
         }
     }

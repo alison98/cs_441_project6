@@ -32,16 +32,22 @@ public class StartScreen implements Screen{
     private int height;
     private int width;
     private Title title;
-    private ImageButton button;
+    private ImageButton start;
+    private ImageButton instructions;
 
-    public StartScreen(Game g){
+    public StartScreen(Game g, StarManager s){
         this.game = g;
         stage = new Stage(new ScreenViewport());
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
         makeButton();
         initTitle();
-        stars = new StarManager(height, width, stage);
+        if(s == null){
+            stars = new StarManager(height, width, stage);
+        } else{
+            stars = s;
+            stars.setStage(stage);
+        }
     }
 
     public void initTitle(){
@@ -51,12 +57,16 @@ public class StartScreen implements Screen{
     }
 
     public void makeButton(){
-        ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
-        imageButtonStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
-        button = new ImageButton(imageButtonStyle);
-        button.setPosition(width/2-button.getWidth()/2,height/4-button.getHeight()/2);
-        button.addListener(new InputListener(){
+        ImageButton.ImageButtonStyle startStyle = new ImageButton.ImageButtonStyle();
+        startStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
+        startStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
+        ImageButton.ImageButtonStyle instructionsStyle = new ImageButton.ImageButtonStyle();
+        instructionsStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("instructions-resized.png"))));
+        instructionsStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("instructions-resized.png"))));
+        start = new ImageButton(startStyle);
+        instructions = new ImageButton(instructionsStyle);
+        start.setPosition(width/2-start.getWidth()/2,height/4-start.getHeight()/2);
+        start.addListener(new InputListener(){
             @Override
             public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
                 game.setScreen(new CountdownScreen(game, stars));
@@ -66,7 +76,19 @@ public class StartScreen implements Screen{
                 return true;
             }
         });
-        stage.addActor(button);
+        instructions.setPosition(width/2-instructions.getWidth()/2,200);
+        instructions.addListener(new InputListener(){
+            @Override
+            public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
+                game.setScreen(new InstructionsScreen(game, stars));
+            }
+            @Override
+            public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+                return true;
+            }
+        });
+        stage.addActor(instructions);
+        stage.addActor(start);
     }
 
     @Override
@@ -80,7 +102,7 @@ public class StartScreen implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stars.tick();
         title.toFront();
-        button.toFront();
+        start.toFront();
         stage.act();
         stage.draw();
     }

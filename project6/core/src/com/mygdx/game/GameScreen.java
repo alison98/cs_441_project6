@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class GameScreen implements Screen {
-    Game game;
+    private Game game;
     private Stage stage;
     private int height;
     private int width;
@@ -33,6 +33,7 @@ public class GameScreen implements Screen {
         stars.setStage(stage);
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
+        System.out.println(height + " " + width);
         initRocket();
         lasers = new LaserManager(height, width, (int)(25 + rocket.getHeight()), stage);
         asteroids = new AsteroidManager(height, width, stage);
