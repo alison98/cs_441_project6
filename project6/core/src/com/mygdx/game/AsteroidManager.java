@@ -11,6 +11,7 @@ import java.util.List;
 public class AsteroidManager {
     private List<Asteroid> available;
     private List<Asteroid> onScreen;
+    private List<Asteroid> exploding;
     private int height;
     private int width;
     private Stage stage;
@@ -20,10 +21,20 @@ public class AsteroidManager {
     public AsteroidManager(int h, int w, Stage s){
         available = new ArrayList<Asteroid>();
         onScreen = new ArrayList<Asteroid>();
+        exploding = new ArrayList<Asteroid>();
         generateAsteroids();
         height = h;
         width = w;
         stage = s;
+    }
+
+    public List<Asteroid> getOnScreen(){
+        return onScreen;
+    }
+
+    public void explode(int index){
+        Asteroid a = onScreen.remove(index);
+        exploding.add(a);
     }
 
     private void generateAsteroids(){
@@ -61,6 +72,16 @@ public class AsteroidManager {
         if(curr <= 0){
             add();
             curr = (int)(Math.random() * 10 + 200);
+        }
+        for(int i = 0; i < exploding.size(); i++){
+            Asteroid a = exploding.get(i);
+            if(!a.explodeTick()){
+                a.reset();
+                a.remove();
+                exploding.remove(i);
+                available.add(a);
+                i--;
+            }
         }
     }
 }

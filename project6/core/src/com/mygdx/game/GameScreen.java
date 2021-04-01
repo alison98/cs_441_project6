@@ -33,7 +33,6 @@ public class GameScreen implements Screen {
         stars.setStage(stage);
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        System.out.println(height + " " + width);
         initRocket();
         lasers = new LaserManager(height, width, (int)(25 + rocket.getHeight()), stage);
         asteroids = new AsteroidManager(height, width, stage);
@@ -61,8 +60,24 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         tick();
+        checkCollisions();
         stage.act();
         stage.draw();
+    }
+
+    private void checkCollisions(){
+        ArrayList<Asteroid> asteroidList = (ArrayList<Asteroid>) asteroids.getOnScreen();
+        ArrayList<Laser> laserList = (ArrayList<Laser>) lasers.getOnScreen();
+        for(int i = 0; i < asteroidList.size(); i++){
+            Asteroid a = asteroidList.get(i);
+            for(int j = 0; j < laserList.size(); j++){
+                Laser l = laserList.get(j);
+                if(a.collides(l)){
+                    asteroids.explode(i);
+                    lasers.remove(j);
+                }
+            }
+        }
     }
 
     private void tick(){

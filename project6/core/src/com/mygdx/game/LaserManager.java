@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LaserManager {
-    private List<Laser> list;
-    private List<Laser> offScreen;
+    private List<Laser> onScreen;
+    private List<Laser> available;
     private int height;
     private int width;
     private int startHeight;
@@ -16,34 +16,44 @@ public class LaserManager {
     private int curr = 1;
 
     public LaserManager(int h, int w, int sh, Stage s){
-        list = new ArrayList<Laser>();
-        offScreen = new ArrayList<Laser>();
+        onScreen = new ArrayList<Laser>();
+        available = new ArrayList<Laser>();
         height = h;
         width = w;
         startHeight = sh - 80;
         stage = s;
     }
 
+    public List<Laser> getOnScreen(){
+        return onScreen;
+    }
+
+    public void remove(int index){
+        Laser l = onScreen.remove(index);
+        l.remove();
+        available.add(l);
+    }
+
     private void add(int pos){
         Laser l;
-        if(offScreen.size() > 0) {
-            l = offScreen.remove(0);
+        if(available.size() > 0) {
+            l = available.remove(0);
         } else{
             l = new Laser();
         }
         l.setPosition(pos, startHeight);
         stage.addActor(l);
-        list.add(l);
+        onScreen.add(l);
     }
 
     public void tick(int rocketPos){
-        for(int i = 0; i < list.size(); i++){
-            Laser l = list.get(i);
+        for(int i = 0; i < onScreen.size(); i++){
+            Laser l = onScreen.get(i);
             l.setPosition(l.getX(), l.getY() + v);
             if(l.getY() >= height){
                 l.remove();
-                list.remove(i);
-                offScreen.add(l);
+                onScreen.remove(i);
+                available.add(l);
                 i--;
             }
         }
