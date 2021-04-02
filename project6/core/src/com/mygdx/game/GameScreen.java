@@ -4,17 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 public class GameScreen implements Screen {
     private Game game;
@@ -25,6 +20,13 @@ public class GameScreen implements Screen {
     private LaserManager lasers;
     private AsteroidManager asteroids;
     private StarManager stars;
+    private int stun = 0;
+    private final int t = 25; //stun time
+    private final int maxHealth = 48; //max health
+    private final int h = 1; //health taken per asteroid
+    private int health;
+    private Img heart;
+    private HealthBar healthBar;
 
     public GameScreen(Game g, StarManager s) {
         game = g;
@@ -34,8 +36,18 @@ public class GameScreen implements Screen {
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
         initRocket();
-        lasers = new LaserManager(height, width, (int)(25 + rocket.getHeight()), stage);
-        asteroids = new AsteroidManager(height, width, stage);
+        initHealth();
+        lasers = new LaserManager((int)(25 + rocket.getHeight()), stage);
+        asteroids = new AsteroidManager(stage, healthBar);
+        health = maxHealth;
+    }
+
+    private void initHealth(){
+        heart = new Img("heart-resized.png");
+        heart.setPosition(width-40 - heart.getWidth()/2, height/2+ 400);
+        stage.addActor(heart);
+        healthBar = new HealthBar(maxHealth);
+        stage.addActor(healthBar);
     }
 
     private void initRocket(){
@@ -45,7 +57,8 @@ public class GameScreen implements Screen {
         rocket.addListener(new DragListener(){
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
-               rocket.moveBy(x - rocket.getWidth()/2, 0);
+                if(stun == 0)
+                    rocket.moveBy(x - rocket.getWidth()/2, 0);
             }
         });
     }
@@ -78,15 +91,27 @@ public class GameScreen implements Screen {
                 }
             }
         }
+        for(int i = 0; i < asteroidList.size(); i++){
+            Asteroid a = asteroidList.get(i);
+            if (a.collides(rocket)){
+                asteroids.explode(i);
+                stun = t;
+                rocket.hit();
+            }
+        }
     }
 
     private void tick(){
         stars.tick();
-        lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8));
+        lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8), stun > 0);
         asteroids.tick();
         rocket.tick();
-        //stars.toBack();
         rocket.toFront();
+        heart.toFront();
+        healthBar.toFront();
+        if(stun > 0){
+            stun--;
+        }
     }
 
     @Override

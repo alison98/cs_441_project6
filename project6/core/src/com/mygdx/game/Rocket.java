@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class Rocket extends Actor {
@@ -11,6 +12,8 @@ public class Rocket extends Actor {
     private Sprite sprite;
     private int frames;
     private int curr;
+    private Rectangle hitbox1;
+    private Rectangle hitbox2;
 
     public Rocket(){
         initSprites();
@@ -18,6 +21,20 @@ public class Rocket extends Actor {
         this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
         frames = (int)(Math.random() * 5 + 2);
         curr = frames;
+        hitbox1 = new Rectangle(getX() + 32, getY() + 144, 176, 64);
+        hitbox2 = new Rectangle(getX() + 96, getY() + 208, 80, 144);
+    }
+
+    public void hit(){
+        System.out.println("hit");
+    }
+
+    public Rectangle getHitbox1(){
+        return hitbox1;
+    }
+
+    public Rectangle getHitbox2(){
+        return hitbox2;
     }
 
     private void initSprites(){
@@ -49,6 +66,8 @@ public class Rocket extends Actor {
     @Override
     public void positionChanged(){
         sprite.setPosition(getX(), getY());
+        hitbox1.set(getX() + 32, getY() + 144, 176, 64);
+        hitbox2.set(getX() + 96, getY() + 208, 80, 144);
     }
 
     @Override

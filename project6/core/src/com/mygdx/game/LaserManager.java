@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
@@ -12,14 +13,15 @@ public class LaserManager {
     private int width;
     private int startHeight;
     private Stage stage;
-    private final int v = 5;
+    private final int v = 30; //laser speed
+    private final int t = 15; //time between lasers
     private int curr = 1;
 
-    public LaserManager(int h, int w, int sh, Stage s){
+    public LaserManager(int sh, Stage s){
         onScreen = new ArrayList<Laser>();
         available = new ArrayList<Laser>();
-        height = h;
-        width = w;
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
         startHeight = sh - 80;
         stage = s;
     }
@@ -46,7 +48,7 @@ public class LaserManager {
         onScreen.add(l);
     }
 
-    public void tick(int rocketPos){
+    public void tick(int rocketPos, boolean stun){
         for(int i = 0; i < onScreen.size(); i++){
             Laser l = onScreen.get(i);
             l.setPosition(l.getX(), l.getY() + v);
@@ -57,10 +59,11 @@ public class LaserManager {
                 i--;
             }
         }
-        curr--;
+        if(!stun)
+            curr--;
         if(curr <= 0){
             add(rocketPos);
-            curr = 50;
+            curr = t;
         }
     }
 }

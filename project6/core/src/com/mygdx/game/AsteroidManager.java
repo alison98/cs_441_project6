@@ -16,16 +16,21 @@ public class AsteroidManager {
     private int width;
     private Stage stage;
     private int curr = 0;
-    private Sprite[] sprites;
+    private HealthBar healthBar;
 
-    public AsteroidManager(int h, int w, Stage s){
+    public AsteroidManager(Stage s, HealthBar h){
         available = new ArrayList<Asteroid>();
         onScreen = new ArrayList<Asteroid>();
         exploding = new ArrayList<Asteroid>();
         generateAsteroids();
-        height = h;
-        width = w;
+        width = Gdx.graphics.getWidth();
+        height = Gdx.graphics.getHeight();
         stage = s;
+        healthBar = h;
+    }
+
+    private int genFrequency(){ // time between asteroids
+        return (int)(Math.random() * 10 + 30);
     }
 
     public List<Asteroid> getOnScreen(){
@@ -51,7 +56,7 @@ public class AsteroidManager {
         }
         Asteroid a = available.remove((int)(Math.random() * available.size()));
         int h = height;
-        int w = (int)(Math.random() * (width - a.getWidth()));
+        int w = (int)(Math.random() * (width - a.getWidth() - 64));
         a.setPosition(w, h);
         stage.addActor(a);
         onScreen.add(a);
@@ -66,12 +71,15 @@ public class AsteroidManager {
                 onScreen.remove(i);
                 available.add(a);
                 i--;
+                if(!healthBar.decreaseHealth()) {
+                    System.out.println("you lose bitch");
+                }
             }
         }
         curr--;
         if(curr <= 0){
             add();
-            curr = (int)(Math.random() * 10 + 200);
+            curr = genFrequency();
         }
         for(int i = 0; i < exploding.size(); i++){
             Asteroid a = exploding.get(i);

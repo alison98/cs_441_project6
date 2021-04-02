@@ -17,6 +17,7 @@ public class Asteroid extends Actor {
     private int img;
     private int rotation;
     private Rectangle hitbox;
+    private final int t = 20; //explosion time
     private int explodeCounter;
 
     public Asteroid(int i, int r){
@@ -29,22 +30,26 @@ public class Asteroid extends Actor {
         sprite = sprite0;
         sprite.setRotation(rotation);
         this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
-        v = 2;
+        v = genVelocity();
         hitbox = new Rectangle(getX() + 48, getY() + 48, 144, 144);
-        explodeCounter = 40;
+        explodeCounter = t;
+    }
+
+    private double genVelocity(){ //asteroid velocity
+        return Math.random() * 10 + 20;
     }
 
     public void reset(){
         sprite = sprite0;
         positionChanged();
-        explodeCounter = 40;
+        explodeCounter = t;
     }
 
     public String[] getFileNames(){
         String[] ret = new String[3];
-        ret[0] = "asteroid-" + img + "-1-resized.png";
-        ret[1] = "asteroid-" + img + "-2-resized.png";
-        ret[2] = "asteroid-" + img + "-3-resized.png";
+        ret[0] = "asteroids/asteroid-" + img + "-1-resized.png";
+        ret[1] = "asteroids/asteroid-" + img + "-2-resized.png";
+        ret[2] = "asteroids/asteroid-" + img + "-3-resized.png";
         return ret;
     }
 
@@ -57,10 +62,10 @@ public class Asteroid extends Actor {
     }
 
     public boolean explodeTick(){
-        if(explodeCounter == 40){
+        if(explodeCounter == t){
             sprite = sprite1;
             positionChanged();
-        } else if(explodeCounter == 20){
+        } else if(explodeCounter == t/2){
             sprite = sprite2;
             positionChanged();
         }
@@ -70,6 +75,10 @@ public class Asteroid extends Actor {
 
     public boolean collides(Laser l){
         return hitbox.overlaps(l.getHitbox());
+    }
+
+    public boolean collides(Rocket r){
+        return hitbox.overlaps(r.getHitbox1()) || hitbox.overlaps(r.getHitbox2());
     }
 
     @Override
