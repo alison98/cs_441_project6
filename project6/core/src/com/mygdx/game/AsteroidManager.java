@@ -17,6 +17,9 @@ public class AsteroidManager {
     private Stage stage;
     private int curr = 0;
     private HealthBar healthBar;
+    private final int baseT = 30; //time between asteroids
+    private final double timeDec = 0.5; //time decerase per level
+
 
     public AsteroidManager(Stage s, HealthBar h){
         available = new ArrayList<Asteroid>();
@@ -29,8 +32,8 @@ public class AsteroidManager {
         healthBar = h;
     }
 
-    private int genFrequency(){ // time between asteroids
-        return (int)(Math.random() * 10 + 30);
+    private int genFrequency(int level){ // time between asteroids
+        return (int)(Math.random() * 10 + (baseT - timeDec * level));
     }
 
     public List<Asteroid> getOnScreen(){
@@ -50,7 +53,7 @@ public class AsteroidManager {
         }
     }
 
-    public void add(){
+    public void add(int level){
         if(available.size() == 0){
             generateAsteroids();
         }
@@ -58,11 +61,12 @@ public class AsteroidManager {
         int h = height;
         int w = (int)(Math.random() * (width - a.getWidth() - 64));
         a.setPosition(w, h);
+        a.setLevel(level);
         stage.addActor(a);
         onScreen.add(a);
     }
 
-    public void tick(){
+    public void tick(int level){
         for(int i = 0; i < onScreen.size(); i++){
             Asteroid a = onScreen.get(i);
             a.setPosition(a.getX(), a.getY() - a.tick());
@@ -78,8 +82,8 @@ public class AsteroidManager {
         }
         curr--;
         if(curr <= 0){
-            add();
-            curr = genFrequency();
+            add(level);
+            curr = genFrequency(level);
         }
         for(int i = 0; i < exploding.size(); i++){
             Asteroid a = exploding.get(i);

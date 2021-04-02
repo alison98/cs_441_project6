@@ -25,10 +25,6 @@ public class Rocket extends Actor {
         hitbox2 = new Rectangle(getX() + 96, getY() + 208, 80, 144);
     }
 
-    public void hit(){
-        System.out.println("hit");
-    }
-
     public Rectangle getHitbox1(){
         return hitbox1;
     }

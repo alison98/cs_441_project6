@@ -12,18 +12,17 @@ public class HealthBar extends Actor {
     private Sprite sprite;
     private int height;
     private int width;
-    private int maxHealth;
     private int currentHealth;
     private int originalHeight;
     private Texture original;
+    private final int maxHealth = 48; //max health
 
-    public HealthBar(int m) {
+    public HealthBar() {
         original = new Texture (Gdx.files.internal("health-bar-resized.png"));
         sprite = new Sprite(new TextureRegion(original));
         setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
         width = Gdx.graphics.getWidth();
         height = Gdx.graphics.getHeight();
-        maxHealth = m;
         currentHealth = maxHealth;
         originalHeight = (int)sprite.getHeight();
         setPosition(width - 64,height/2 - getHeight()/2);

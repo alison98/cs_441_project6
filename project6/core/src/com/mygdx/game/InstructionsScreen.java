@@ -32,6 +32,7 @@ public class InstructionsScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         stars.setStage(stage);
         initText();
+        makeButton();
     }
 
     private void initText(){
@@ -48,7 +49,6 @@ public class InstructionsScreen implements Screen {
         label1.setPosition(0,150);
         label1.setAlignment(Align.center);
         stage.addActor(label1);
-        makeButton();
     }
 
     public void makeButton(){

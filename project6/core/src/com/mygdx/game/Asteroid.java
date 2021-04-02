@@ -18,6 +18,9 @@ public class Asteroid extends Actor {
     private int rotation;
     private Rectangle hitbox;
     private final int t = 20; //explosion time
+    private double baseV = 15; //base velocity
+    private double vRange = 5; //velocity range
+    private final double vInc = 0.25; //velocity increment
     private int explodeCounter;
 
     public Asteroid(int i, int r){
@@ -35,8 +38,13 @@ public class Asteroid extends Actor {
         explodeCounter = t;
     }
 
-    private double genVelocity(){ //asteroid velocity
-        return Math.random() * 10 + 20;
+    public void setLevel(int n){
+        baseV = baseV + n * vInc;
+        v =  Math.random() * vRange + (baseV + n * vInc);
+    }
+
+    private double genVelocity(){
+        return Math.random() * vRange + baseV;
     }
 
     public void reset(){

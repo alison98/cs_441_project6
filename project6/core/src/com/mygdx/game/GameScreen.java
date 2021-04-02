@@ -22,11 +22,9 @@ public class GameScreen implements Screen {
     private StarManager stars;
     private int stun = 0;
     private final int t = 25; //stun time
-    private final int maxHealth = 48; //max health
-    private final int h = 1; //health taken per asteroid
-    private int health;
     private Img heart;
     private HealthBar healthBar;
+    private Score score;
 
     public GameScreen(Game g, StarManager s) {
         game = g;
@@ -37,16 +35,16 @@ public class GameScreen implements Screen {
         height = Gdx.graphics.getHeight();
         initRocket();
         initHealth();
+        score = new Score(stage);
         lasers = new LaserManager((int)(25 + rocket.getHeight()), stage);
         asteroids = new AsteroidManager(stage, healthBar);
-        health = maxHealth;
     }
 
     private void initHealth(){
         heart = new Img("heart-resized.png");
         heart.setPosition(width-40 - heart.getWidth()/2, height/2+ 400);
         stage.addActor(heart);
-        healthBar = new HealthBar(maxHealth);
+        healthBar = new HealthBar();
         stage.addActor(healthBar);
     }
 
@@ -88,6 +86,7 @@ public class GameScreen implements Screen {
                 if(a.collides(l)){
                     asteroids.explode(i);
                     lasers.remove(j);
+                    score.add();
                 }
             }
         }
@@ -96,7 +95,6 @@ public class GameScreen implements Screen {
             if (a.collides(rocket)){
                 asteroids.explode(i);
                 stun = t;
-                rocket.hit();
             }
         }
     }
@@ -104,7 +102,7 @@ public class GameScreen implements Screen {
     private void tick(){
         stars.tick();
         lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8), stun > 0);
-        asteroids.tick();
+        asteroids.tick(score.getLevel());
         rocket.tick();
         rocket.toFront();
         heart.toFront();
