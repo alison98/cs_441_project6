@@ -20,7 +20,7 @@ public class Asteroid extends Actor {
     private final int t = 20; //explosion time
     private double baseV = 15; //base velocity
     private double vRange = 5; //velocity range
-    private final double vInc = 0.25; //velocity increment
+    private final double vInc = 0.075; //velocity increment
     private int explodeCounter;
 
     public Asteroid(int i, int r){

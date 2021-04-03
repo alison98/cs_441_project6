@@ -95,6 +95,7 @@ public class GameScreen implements Screen {
             if (a.collides(rocket)){
                 asteroids.explode(i);
                 stun = t;
+                lasers.hit();
             }
         }
     }

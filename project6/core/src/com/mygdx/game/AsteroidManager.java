@@ -18,7 +18,7 @@ public class AsteroidManager {
     private int curr = 0;
     private HealthBar healthBar;
     private final int baseT = 30; //time between asteroids
-    private final double timeDec = 0.5; //time decerase per level
+    private final double timeDec = .75; //time decrease per level
 
 
     public AsteroidManager(Stage s, HealthBar h){

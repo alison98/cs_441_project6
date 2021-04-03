@@ -15,7 +15,7 @@ public class HealthBar extends Actor {
     private int currentHealth;
     private int originalHeight;
     private Texture original;
-    private final int maxHealth = 48; //max health
+    private final int maxHealth = 24; //max health
 
     public HealthBar() {
         original = new Texture (Gdx.files.internal("health-bar-resized.png"));

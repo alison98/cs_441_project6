@@ -39,7 +39,6 @@ public class Score extends Actor {
     }
 
     public void add(){
-        System.out.println(score);
         score += base + level * inc;
         if(score >= levelScore(level)){
             level++;

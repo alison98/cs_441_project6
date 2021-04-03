@@ -14,7 +14,8 @@ public class LaserManager {
     private int startHeight;
     private Stage stage;
     private final int v = 30; //laser speed
-    private final int t = 15; //time between lasers
+    private double t = 15; //time between lasers
+    private final double inc = 0.1; //time increment per hit
     private int curr = 1;
 
     public LaserManager(int sh, Stage s){
@@ -28,6 +29,10 @@ public class LaserManager {
 
     public List<Laser> getOnScreen(){
         return onScreen;
+    }
+
+    public void hit(){
+        t += inc;
     }
 
     public void remove(int index){
@@ -63,7 +68,7 @@ public class LaserManager {
             curr--;
         if(curr <= 0){
             add(rocketPos);
-            curr = t;
+            curr = (int)t;
         }
     }
 }
