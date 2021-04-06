@@ -12,7 +12,7 @@ public class Countdown extends Actor {
     private boolean isDone;
 
     public Countdown(){
-        sprite = new Sprite(new Texture(Gdx.files.internal("countdown-3-resized.png")));
+        sprite = new Sprite(new Texture(Gdx.files.internal("countdown/countdown-3-resized.png")));
         this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
         frames = 0;
         isDone = false;
@@ -21,9 +21,9 @@ public class Countdown extends Actor {
     public void tick(){
         frames++;
         if(frames == 60){
-            sprite = new Sprite(new Texture(Gdx.files.internal("countdown-2-resized.png")));
+            sprite = new Sprite(new Texture(Gdx.files.internal("countdown/countdown-2-resized.png")));
         } else if(frames == 120){
-            sprite = new Sprite(new Texture(Gdx.files.internal("countdown-1-resized.png")));
+            sprite = new Sprite(new Texture(Gdx.files.internal("countdown/countdown-1-resized.png")));
         } else if(frames == 180){
             isDone = true;
         }

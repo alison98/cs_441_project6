@@ -12,7 +12,7 @@ public class Laser extends Actor {
     private Rectangle hitbox;
 
     public Laser() {
-        sprite = new Sprite(new Texture(Gdx.files.internal("laser.png")));
+        sprite = new Sprite(new Texture(Gdx.files.internal("rocket/laser.png")));
         this.setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
         hitbox = new Rectangle(getX(), getY(), 16, 80);
     }

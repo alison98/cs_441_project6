@@ -37,7 +37,7 @@ public class InstructionsScreen implements Screen {
 
     private void initText(){
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        BitmapFont myFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("font/font.fnt"));
         label1Style.font = myFont;
         String text = "Defend the Earth!\n" +
                 "\nAny asteroids that pass\nyour ship will damage\nthe planet,\nso destroy them quickly!\n" +
@@ -51,10 +51,10 @@ public class InstructionsScreen implements Screen {
         stage.addActor(label1);
     }
 
-    public void makeButton(){
+    private void makeButton(){
         ImageButton.ImageButtonStyle startStyle = new ImageButton.ImageButtonStyle();
-        startStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("back-resized.png"))));
-        startStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("back-resized.png"))));
+        startStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("text/back-resized.png"))));
+        startStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("text/back-resized.png"))));
         back = new ImageButton(startStyle);
         back.setPosition(width/2-back.getWidth()/2,100);
         back.addListener(new InputListener(){

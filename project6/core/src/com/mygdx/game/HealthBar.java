@@ -18,7 +18,7 @@ public class HealthBar extends Actor {
     private final int maxHealth = 24; //max health
 
     public HealthBar() {
-        original = new Texture (Gdx.files.internal("health-bar-resized.png"));
+        original = new Texture (Gdx.files.internal("health-bar/health-bar-resized.png"));
         sprite = new Sprite(new TextureRegion(original));
         setBounds(this.sprite.getX(), this.sprite.getY(), this.sprite.getWidth(), this.sprite.getHeight());
         width = Gdx.graphics.getWidth();

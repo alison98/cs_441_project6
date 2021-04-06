@@ -38,19 +38,19 @@ public class StartScreen implements Screen{
         }
     }
 
-    public void initTitle(){
-        title = new Img("title-resized.png");
+    private void initTitle(){
+        title = new Img("text/title-resized.png");
         title.setPosition(width/2-(title.getWidth()/2), height-600);
         stage.addActor(title);
     }
 
-    public void makeButton(){
+    private void makeButton(){
         ImageButton.ImageButtonStyle startStyle = new ImageButton.ImageButtonStyle();
-        startStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
-        startStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("start-resized.png"))));
+        startStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("text/start-resized.png"))));
+        startStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("text/start-resized.png"))));
         ImageButton.ImageButtonStyle instructionsStyle = new ImageButton.ImageButtonStyle();
-        instructionsStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("instructions-resized.png"))));
-        instructionsStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("instructions-resized.png"))));
+        instructionsStyle.imageUp = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("text/instructions-resized.png"))));
+        instructionsStyle.imageDown = new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("text/instructions-resized.png"))));
         start = new ImageButton(startStyle);
         instructions = new ImageButton(instructionsStyle);
         start.setPosition(width/2-start.getWidth()/2,height/4-start.getHeight()/2);

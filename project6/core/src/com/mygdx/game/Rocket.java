@@ -35,9 +35,9 @@ public class Rocket extends Actor {
 
     private void initSprites(){
         sprites = new Sprite[3];
-        sprites[0] = new Sprite(new Texture(Gdx.files.internal("rocket-1-resized.png")));
-        sprites[1] = new Sprite(new Texture(Gdx.files.internal("rocket-2-resized.png")));
-        sprites[2] = new Sprite(new Texture(Gdx.files.internal("rocket-3-resized.png")));
+        sprites[0] = new Sprite(new Texture(Gdx.files.internal("rocket/rocket-1-resized.png")));
+        sprites[1] = new Sprite(new Texture(Gdx.files.internal("rocket/rocket-2-resized.png")));
+        sprites[2] = new Sprite(new Texture(Gdx.files.internal("rocket/rocket-3-resized.png")));
     }
 
     public void tick(){

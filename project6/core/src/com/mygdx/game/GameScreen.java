@@ -25,6 +25,7 @@ public class GameScreen implements Screen {
     private Img heart;
     private HealthBar healthBar;
     private Score score;
+    private boolean gameOver = false;
 
     public GameScreen(Game g, StarManager s) {
         game = g;
@@ -41,7 +42,7 @@ public class GameScreen implements Screen {
     }
 
     private void initHealth(){
-        heart = new Img("heart-resized.png");
+        heart = new Img("health-bar/heart-resized.png");
         heart.setPosition(width-40 - heart.getWidth()/2, height/2+ 400);
         stage.addActor(heart);
         healthBar = new HealthBar();
@@ -70,6 +71,9 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if(gameOver){
+            game.setScreen(new GameOverScreen(game, stars, score.getScore()));
+        }
         tick();
         checkCollisions();
         stage.act();
@@ -103,7 +107,9 @@ public class GameScreen implements Screen {
     private void tick(){
         stars.tick();
         lasers.tick((int)(rocket.getX() + (rocket.getWidth() / 2) - 8), stun > 0);
-        asteroids.tick(score.getLevel());
+        if(!asteroids.tick(score.getLevel())){
+            gameOver = true;
+        }
         rocket.tick();
         rocket.toFront();
         heart.toFront();

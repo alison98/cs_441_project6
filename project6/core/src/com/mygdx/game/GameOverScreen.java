@@ -7,20 +7,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-public class CountdownScreen implements Screen {
+public class GameOverScreen implements Screen {
     private Game game;
     private Stage stage;
     private StarManager stars;
-    private Countdown c;
+    private Img img;
+    private int ticks = 120;
+    private int score;
 
-    public CountdownScreen(Game g, StarManager s) {
+    public GameOverScreen(Game g, StarManager s, int newScore) {
         game = g;
         stage = new Stage(new ScreenViewport());
         stars = s;
+        score = newScore;
         stars.setStage(stage);
-        c = new Countdown();
-        stage.addActor(c);
-        c.setPosition(Gdx.graphics.getWidth()/2 - c.getWidth()/2, Gdx.graphics.getHeight()-800);
+        img = new Img("text/game-over-resized.png");
+        stage.addActor(img);
+        img.setPosition(Gdx.graphics.getWidth()/2 - img.getWidth()/2, Gdx.graphics.getHeight()-800);
     }
 
     @Override
@@ -32,11 +35,11 @@ public class CountdownScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(.065f, .065f, .1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        if(c.isDone()){
-            game.setScreen(new GameScreen(game, stars));
+        if(ticks <= 0){
+            game.setScreen(new EndScreen(game, stars, score));
         }
-        c.tick();
         stars.tick();
+        ticks--;
         stage.act();
         stage.draw();
     }

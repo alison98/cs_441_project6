@@ -28,7 +28,7 @@ public class Score extends Actor {
 
     private void initLabel(){
         Label.LabelStyle label1Style = new Label.LabelStyle();
-        BitmapFont myFont = new BitmapFont(Gdx.files.internal("font.fnt"));
+        BitmapFont myFont = new BitmapFont(Gdx.files.internal("font/font.fnt"));
         label1Style.font = myFont;
         String text = score + "\nLevel: " + level;
         label = new Label(text, label1Style);
@@ -46,6 +46,8 @@ public class Score extends Actor {
         String text = score + "\nLevel: " + level;
         label.setText(text);
     }
+
+    public int getScore(){return score;}
 
     public int getLevel(){
         return level;

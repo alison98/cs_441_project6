@@ -66,7 +66,7 @@ public class AsteroidManager {
         onScreen.add(a);
     }
 
-    public void tick(int level){
+    public boolean tick(int level){
         for(int i = 0; i < onScreen.size(); i++){
             Asteroid a = onScreen.get(i);
             a.setPosition(a.getX(), a.getY() - a.tick());
@@ -76,7 +76,7 @@ public class AsteroidManager {
                 available.add(a);
                 i--;
                 if(!healthBar.decreaseHealth()) {
-                    System.out.println("you lose bitch");
+                    return false;
                 }
             }
         }
@@ -95,5 +95,6 @@ public class AsteroidManager {
                 i--;
             }
         }
+        return true;
     }
 }
